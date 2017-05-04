@@ -10,10 +10,11 @@
 
 
 beslanGroup = GROUP:FindByName("BeslanCaptureGroup")
+CAStarget = GROUP:Find("OtherGroup")
+
+
 
 beslanGroup:HandleEvent(EVENTS.Dead, beslanActivateAirfield())
-
---Wenn die gruppe beslandGroup tot ist werden alle Einheiten auf dem Airfield Beslan activiert 
 
 function beslanActivateAirfield()
     units  =  {"mig21_1", "mig21_2"}
@@ -22,13 +23,6 @@ function beslanActivateAirfield()
       activateUnit:Activate()
     end
 end
-
-
-
-
-
-
-
 
 
 

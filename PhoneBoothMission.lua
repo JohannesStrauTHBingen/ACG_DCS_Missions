@@ -12,7 +12,7 @@
 beslanGroup = GROUP:FindByName("BeslanCaptureGroup")
 CAStarget = GROUP:Find("OtherGroup")
 
-
+einArray { 12345 , 12335236  }
 
 beslanGroup:HandleEvent(EVENTS.Dead, beslanActivateAirfield())
 
@@ -23,7 +23,6 @@ function beslanActivateAirfield()
       activateUnit:Activate()
     end
 end
-
 
 
 

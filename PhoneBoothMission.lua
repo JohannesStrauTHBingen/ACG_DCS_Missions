@@ -12,12 +12,13 @@
 beslanGroup = GROUP:FindByName("BeslanCaptureGroup")
 CAStarget = GROUP:Find("OtherGroup")
 
-einArray { 12345 , 12335236  }
+units  =  {"mig21_1", "mig21_2"}
 
-beslanGroup:HandleEvent(EVENTS.Dead, beslanActivateAirfield())
+beslanGroup:HandleEvent(EVENTS.Dead, beslanActivateAirfield(units))
 
-function beslanActivateAirfield()
-    units  =  {"mig21_1", "mig21_2"}
+
+--This method acivates an given array of units. It's meant to be used within an EventHandler 
+function activateUnits(units)
     for unit in units do
       activateUnit = GROUP:Find(unit)
       activateUnit:Activate()

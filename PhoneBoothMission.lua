@@ -43,7 +43,7 @@ function beslanLibarated()
     end
     )
 
-  MessageToAll(message, 60 ,"Red Team has managed to free Beslan! They can spawn there now")
+  MessageToAll("Red Team has managed to free Beslan! They can spawn there now.", 60 ,"Free Beslan!")
   spawnNewGroup("Garrison_Beslan")
   spawnNewGroup("Attacking_Forces_Blue_Mozdok")
 end

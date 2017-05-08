@@ -1,4 +1,3 @@
-
 -- 6 Gruppen 3 pro Seite
 -- Eine gruppe umzingelt Airfield (pro Seite)
 -- Nach Zerstörung dieser Gruppe airfield -> forward operationg base

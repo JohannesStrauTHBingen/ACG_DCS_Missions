@@ -31,17 +31,18 @@ end
 
 MESSAGE:New("Reaching SCHEDULAR loaded",30,nil):ToAll()
 
-groupISAliveChecker = SCHEDULER:New(nil,function()
-    if not beslanOccupationGroup:IsAlive() then
-      MESSAGE:New("Beslan got liberated by Red Forces. It can now serve as secondary Aifrield for Red!",30,nil):ToAll()
-      --Spawn Airfield Defense
-      beslanDefenseGroup = beslanDefense:Spawn()
-      --Spawn new Blue Attack forces
-      newBlueUnits:Spawn()
-    end
+ groupIsAliveChecker , groupIsAliveCheckerID = SCHEDULER:New(nil,function()
+  if not beslanOccupationGroup:IsAlive() then
+    MESSAGE:New("Beslan got liberated by Red Forces. It can now serve as secondary Aifrield for Red!",30,nil):ToAll()
+    --Spawn Airfield Defense
+    beslanDefenseGroup = beslanDefense:Spawn()
+    --Spawn new Blue Attack forces
+    newBlueUnits:Spawn()
+    --Remove the Scheduler
+    groupIsAliveChecker:Remove(groupIsAliveCheckerID)
+  end
 end
 ,{}, 1 ,10)
-
 
 local debugSchedular = SCHEDULER:New(nil,
   function()

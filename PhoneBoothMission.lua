@@ -1,4 +1,8 @@
 
+
+
+  MESSAGE:New("Script loaded",30,nil):ToAll()
+
 --Die Gruppe die Beslan hält
 beslanOccupationGroup = GROUP:FindByName("Attacking_Forces_Blue")
 beslanOccupationGroup.HandleEvent(EVENTS.Dead)

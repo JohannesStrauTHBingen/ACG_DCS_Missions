@@ -1,21 +1,26 @@
 
 
-
-  MESSAGE:New("Script loaded",30,nil):ToAll()
+MESSAGE:New("Script loaded",30,nil):ToAll()
 
 --Die Gruppe die Beslan hält
-beslanOccupationGroup = GROUP:FindByName("Attacking_Forces_Blue")
-beslanOccupationGroup.HandleEvent(EVENTS.Dead)
-function beslanOccupationGroup:OnEventDead(EventData)
-  
-  
-  if not EventData.IniGroup:IsAlive() then
-    beslanLibarated()
-  end
-end
+beslanOccupationGroup = GROUP:FindByName("Attacking_Forces_BLUE")
 
-beslanDefense = SPAWN:New("Beslan_Defense")
-newBlueUnits = SPAWN:New("New_Blue_Units")
+MESSAGE:New("Reaching EVENT handler",30,nil):ToAll()
+
+beslanOccupationGroup:HandleEvent(EVENTS.Dead)
+function beslanOccupationGroup:OnEventDead(EventData)
+
+	if not EventData.IniGroup:IsAlive() then
+		 beslanLibarated()
+	end
+ end
+
+MESSAGE:New("Reaching beslanLibarated",30,nil):ToAll()
+
+beslanDefense = SPAWN:New("Garrison_Beslan")
+newBlueUnits = SPAWN:New("Attacking_Forces_Blue_Mozdok")
+
+
 
 function beslanLibarated()
   MESSAGE:New("Beslan got liberated by Red Forces. It can now serve as secondary Aifrield for Red!",30,nil):ToAll()
@@ -25,10 +30,13 @@ function beslanLibarated()
   newBlueUnits:Spawn()
 end
 
-SCHEDULER:New(nil, function()
+MESSAGE:New("Reaching SCHEDULAR loaded",30,nil):ToAll()
+
+ local debugSchedular = SCHEDULER:New(nil,
+ function()
+	MESSAGE:New("Attacking Forces Blue Gone",30,nil):ToAll()
 	beslanOccupationGroup:Destroy()
-	MESSAGE:New("Attacking forces Blue is Gone",10,"Debug")
-end, 10 )
-
-
-MESSAGE:New("OnEventDead by beslanOccuation Group got triggert!",30,nil):ToAll()
+ end, {}, 10 
+ )
+	
+MESSAGE:New("last Line",30,nil):ToAll()

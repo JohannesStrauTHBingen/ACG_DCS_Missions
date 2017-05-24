@@ -21,5 +21,5 @@ newRedUnits = SPAWN:New("Attacking_Forces_Red_Vody")
     newRedUnits:Spawn()
     end
 end
-,{}, 1 ,10)
+,{}, 1 ,1)
 

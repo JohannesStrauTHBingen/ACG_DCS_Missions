@@ -1,3 +1,0 @@
-
-
-co = DATABASE:GetCoalitionFromAirbase("Beslan")

@@ -20,7 +20,7 @@ beslanGroupIsAliveChecker , beslanGroupIsAliveCheckerID = SCHEDULER:New(nil,func
   end
   
 end
-,{}, 60 ,60)
+,{}, 30 , 30)
 
 nalchikGroupIsAliveChecker, nalchikGroupIsAliveCheckerID = SCHEDULER:New(nil,function()
 
@@ -31,5 +31,5 @@ nalchikGroupIsAliveChecker, nalchikGroupIsAliveCheckerID = SCHEDULER:New(nil,fun
     nalchikGroupIsAliveChecker:Stop(nalchikGroupIsAliveCheckerID)
     end
 end
-,{},60 ,60) 
+,{},30 , 30) 
 

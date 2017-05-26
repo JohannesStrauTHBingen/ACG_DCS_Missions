@@ -2,8 +2,6 @@
 
 --Spawn a BomberGroup every 30 minutes
 
-GROUP:GetMaxHeight()
-
 bomberSpawn = SPAWN:New( "Bombers" )
   :SpawnScheduled(1800,0)  
   :OnSpawnGroup(function( SpawnGoup )

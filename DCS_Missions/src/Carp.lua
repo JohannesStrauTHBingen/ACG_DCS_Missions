@@ -45,21 +45,22 @@ AddPoints = SCHEDULER:New(nil,function()
       :FilterStart()
     blueUnitSet:ForEachUnit(
       function(Unit)
-
---Todo
+        if (Unit:IsInZone(captureZone)) then
+          blueUnitsInZone = blueUnitsInZone + 1
+        end
       end)
 
     local redUnitsSet = SET_UNIT:New()
       :FilterCoalitions("red")
       :FilterCategories("ground")
       :FilterStart()
-    redUnitsSet:ForEachUnitCompletelyInZone(captureZone,
-      function(unit)
-        redUnitsInZone = redUnitsInZone + 1
-        MESSAGE:New("A red Unit got found in the Zone",3,nil):ToAll()
+    redUnitsSet:ForEachUnit(
+      function(Unit)
+        if (Unit:IsInZone(captureZone)) then
+          redUnitsInZone = redUnitsInZone + 1
+          MESSAGE:New("A red Unit got found in the Zone",3,nil):ToAll()
+        end
       end)
-
-
 
     if (blueUnitsInZone > 0 and redUnitsInZone == 0) then
       MESSAGE:New("Allies are holding the Airfield! Attack them!",10,nil):ToRed()

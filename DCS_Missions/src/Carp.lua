@@ -31,8 +31,6 @@ CromwellSpawn = SPAWN:New("Cromwell")
 pointsAllied = 0
 pointsAxis = 0
 
-
-
 AddPoints = SCHEDULER:New(nil,function()
 
     local blueUnitsInZone = 0
@@ -58,7 +56,6 @@ AddPoints = SCHEDULER:New(nil,function()
       function(Unit)
         if (Unit:IsInZone(captureZone)) then
           redUnitsInZone = redUnitsInZone + 1
-          MESSAGE:New("A red Unit got found in the Zone",3,nil):ToAll()
         end
       end)
 
@@ -77,20 +74,22 @@ AddPoints = SCHEDULER:New(nil,function()
     MESSAGE:New("Axis Capture Points: " .. tostring(pointsAxis) ,10, nil):ToAll()
     MESSAGE:New("Allies Capture Points: " .. tostring(pointsAllied) ,10, nil):ToAll()
 end
-,{},10,10)
+,{},300,300)
 
 missionResult = SCHEDULER:New(nil, function()
 
     if (pointsAxis > pointsAllied) then
-      MESSAGE:New("We won the battle! Good Job Kameraden.",20,nil):ToRed()
-      MESSAGE:New("We lost! Retreat and regroup.",20,nil):ToBlue()
+      MESSAGE:New("We won the battle! Good Job Kameraden. Next fight in 5 Minutes.",20,nil):ToRed()
+      MESSAGE:New("We lost! Retreat and regroup. Next fight in 5 Minutes.",20,nil):ToBlue()
     end
     if (pointsAllied > pointsAxis) then
 
-      MESSAGE:New("We lost! Retreat and regroup.",20,nil):ToRed()
-      MESSAGE:New("We won! One step closer to Berlin.",20,nil):ToBlue()
+      MESSAGE:New("We lost! Retreat and regroup. Next fight in 5 Minutes.",20,nil):ToRed()
+      MESSAGE:New("We won! One step closer to Berlin. Next fight in 5 Minutes.",20,nil):ToBlue()
     end
-end,{},360)
+    if (pointsAllied == pointsAxis) then
+        MESSAGE:New("Draw. Restart in 5 Minutes.",20,nil):ToAll()
+    end
+end,{},14100)
 
-
-MESSAGE:New("All lines loaded" ,10, nil):ToAll()
+MESSAGE:New("Mission Start!" ,10, nil):ToAll()

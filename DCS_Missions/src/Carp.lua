@@ -39,39 +39,27 @@ AddPoints = SCHEDULER:New(nil,function()
     local redUnitsInZone = 0
     local captureZone = ZONE:New("capZone")
 
-    local blueUnitSet = SET_UNIT
+    local blueUnitSet = SET_UNIT:New()
       :FilterCoalitions("blue")
       :FilterCategories("ground")
       :FilterStart()
     blueUnitSet:ForEachUnit(
       function(Unit)
-        MESSAGE:New("A blue Unit got found",3,nil)
+
+--Todo
       end)
 
-    local blueGroupSet = SET_GROUP:New()
-      :FilterCoalitions("blue")
-      :FilterCategories("ground")
-      :FilterStart()
-      :ForEachGroup(function(Group)
-
-          if (Group:IsCompletelyInZone(captureZone)) then
-            blueUnitsInZone = blueUnitsInZone + 1
-            MESSAGE:New("Found Blue" ,10, nil):ToAll()
-          end
-      end)
-
-
-
-    local redUnitsSet = SET_GROUP:New()
+    local redUnitsSet = SET_UNIT:New()
       :FilterCoalitions("red")
       :FilterCategories("ground")
       :FilterStart()
-      :ForEachGroup(function(Group)
-        if (Group:IsCompletelyInZone(captureZone)) then
-          redUnitsInZone = redUnitsInZone + 1
-          MESSAGE:New("Found Red" ,10, nil):ToAll()
-        end
+    redUnitsSet:ForEachUnitCompletelyInZone(captureZone,
+      function(unit)
+        redUnitsInZone = redUnitsInZone + 1
+        MESSAGE:New("A red Unit got found in the Zone",3,nil):ToAll()
       end)
+
+
 
     if (blueUnitsInZone > 0 and redUnitsInZone == 0) then
       MESSAGE:New("Allies are holding the Airfield! Attack them!",10,nil):ToRed()

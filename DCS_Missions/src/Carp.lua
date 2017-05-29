@@ -27,5 +27,3 @@ FireflySpawn = SPAWN:New("Firefly")
 CromwellSpawn = SPAWN:New("Cromwell")
   :InitLimit(5, 25)
   :SpawnScheduled(60, 0)
-
-  

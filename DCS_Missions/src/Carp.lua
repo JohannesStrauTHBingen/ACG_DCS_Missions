@@ -31,39 +31,43 @@ CromwellSpawn = SPAWN:New("Cromwell")
 pointsAllied = 0
 pointsAxis = 0
 
+
+
 AddPoints = SCHEDULER:New(nil,function()
 
     local blueUnitsInZone = 0
     local redUnitsInZone = 0
-    captureZone = ZONE:New("capZone")
-    local blueUnitsSet = SET_GROUP:New():FilterCoalitions("blue"):FilterCategories("ground"):FilterStart()
-	
-	MESSAGE:New("Blue Filter Done" ,10, nil):ToAll()
-	
-    blueUnitsSet:ForEachGroupCompletelyInZone(captureZone,function(GroupObject)
-      blueUnitsInZone = blueUnitsInZone + 1
-	  MESSAGE:New("Found Blue" ,10, nil):ToAll()
-    end)
-	
-	  MESSAGE:New("Blues done" ,10, nil):ToAll()
-	
-	
-    local redUnitsSet = SET_GROUP:New():FilterCoalitions("red"):FilterCategories("ground"):FilterStart()
-    blueUnitsSet:ForEachGroupCompletelyInZone(captureZone,function(GroupObject)
-      redUnitsInZone = redUnitsInZone + 1
-	  MESSAGE:New("Found Red" ,10, nil):ToAll()
+    local captureZone = ZONE:New("capZone")
+    local blueUnitsSet = SET_GROUP:New()
+      :FilterCoalitions("blue")
+      :FilterCategories("ground")
+      :FilterStart()
+      :ForEachGroup(function(Group)
+
+          if Group:IsCompletelyInZone(captureZone) then
+            blueUnitsInZone = blueUnitsInZone + 1
+            MESSAGE:New("Found Blue" ,10, nil):ToAll()
+          end
+      end)
+
+    local redUnitsSet = SET_GROUP:New()
+    :FilterCoalitions("red")
+    :FilterCategories("ground")
+    :FilterStart()
+    :ForEachGroup(function(Group)
+      if Group:IsCompletelyInZone(captureZone) then
+        redUnitsInZone = redUnitsInZone + 1
+        MESSAGE:New("Found Red" ,10, nil):ToAll()
+      end
     end)
 
-	MESSAGE:New("Reds Done" ,10, nil):ToAll()
-	
-	
     if (blueUnitsInZone > 0 and redUnitsInZone == 0) then
       MESSAGE:New("Allies are holding the Airfield! Attack them!",10,nil):ToRed()
       MESSAGE:New("We are holding the Airfield! Keep it on!",10,nil):ToBlue()
       pointsAllied = pointsAllied + 1
 
-	end
-	
+    end
+
     if (redUnitsInZone > 0 and blueUnitsInZone == 0) then
       MESSAGE:New("Axis are holding the Airfield! Attack them!",10,nil):ToBlue()
       MESSAGE:New("We are holding the Airfield! Keep it on!",10,nil):ToRed()
@@ -80,24 +84,12 @@ missionResult = SCHEDULER:New(nil, function()
       MESSAGE:New("We won the battle! Good Job Kameraden.",20,nil):ToRed()
       MESSAGE:New("We lost! Retreat and regroup.",20,nil):ToBlue()
     end
-	if (pointsAllied > pointsAxis) then
+    if (pointsAllied > pointsAxis) then
 
-        MESSAGE:New("We lost! Retreat and regroup.",20,nil):ToRed()
-        MESSAGE:New("We won! One step closer to Berlin.",20,nil):ToBlue()
+      MESSAGE:New("We lost! Retreat and regroup.",20,nil):ToRed()
+      MESSAGE:New("We won! One step closer to Berlin.",20,nil):ToBlue()
     end
 end,{},360)
 
 
 MESSAGE:New("All lines loaded" ,10, nil):ToAll()
-
-
-
-
-
-
-
-
-
-
-
-

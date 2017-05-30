@@ -1,5 +1,4 @@
 
-
 kingTigerSpawn = SPAWN:New("KingTiger")
   :InitLimit(1,10)
   :SpawnScheduled(900, 0)
@@ -63,7 +62,6 @@ AddPoints = SCHEDULER:New(nil,function()
       MESSAGE:New("Allies are holding the Airfield! Attack them!",10,nil):ToRed()
       MESSAGE:New("We are holding the Airfield! Keep it on!",10,nil):ToBlue()
       pointsAllied = pointsAllied + 1
-
     end
 
     if (redUnitsInZone > 0 and blueUnitsInZone == 0) then
@@ -71,8 +69,10 @@ AddPoints = SCHEDULER:New(nil,function()
       MESSAGE:New("We are holding the Airfield! Keep it on!",10,nil):ToRed()
       pointsAxis = pointsAxis + 1
     end
+    
     MESSAGE:New("Axis Capture Points: " .. tostring(pointsAxis) ,10, nil):ToAll()
     MESSAGE:New("Allies Capture Points: " .. tostring(pointsAllied) ,10, nil):ToAll()
+   
 end
 ,{},300,300)
 
@@ -82,11 +82,12 @@ missionResult = SCHEDULER:New(nil, function()
       MESSAGE:New("We won the battle! Good Job Kameraden. Next fight in 5 Minutes.",20,nil):ToRed()
       MESSAGE:New("We lost! Retreat and regroup. Next fight in 5 Minutes.",20,nil):ToBlue()
     end
+    
     if (pointsAllied > pointsAxis) then
-
       MESSAGE:New("We lost! Retreat and regroup. Next fight in 5 Minutes.",20,nil):ToRed()
       MESSAGE:New("We won! One step closer to Berlin. Next fight in 5 Minutes.",20,nil):ToBlue()
     end
+    
     if (pointsAllied == pointsAxis) then
         MESSAGE:New("Draw. Restart in 5 Minutes.",20,nil):ToAll()
     end

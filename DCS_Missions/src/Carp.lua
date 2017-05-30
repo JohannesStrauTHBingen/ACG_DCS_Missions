@@ -1,4 +1,6 @@
 
+BASE:TraceAll(true)
+
 kingTigerSpawn = SPAWN:New("KingTiger")
   :InitLimit(1,10)
   :SpawnScheduled(900, 0)
@@ -31,7 +33,7 @@ pointsAllied = 0
 pointsAxis = 0
 
 AddPoints = SCHEDULER:New(nil,function()
-
+    
     local blueUnitsInZone = 0
     local redUnitsInZone = 0
     local captureZone = ZONE:New("capZone")
@@ -46,7 +48,7 @@ AddPoints = SCHEDULER:New(nil,function()
           blueUnitsInZone = blueUnitsInZone + 1
         end
       end)
-
+      
     local redUnitsSet = SET_UNIT:New()
       :FilterCoalitions("red")
       :FilterCategories("ground")

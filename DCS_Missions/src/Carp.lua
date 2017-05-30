@@ -1,5 +1,7 @@
 
+BASE:TraceOnOff(true)
 BASE:TraceAll(true)
+BASE:TraceLevel(3)
 
 kingTigerSpawn = SPAWN:New("KingTiger")
   :InitLimit(1,10)
@@ -77,6 +79,8 @@ AddPoints = SCHEDULER:New(nil,function()
    
 end
 ,{},300,300)
+AddPoints:E(AddPoints)
+
 
 missionResult = SCHEDULER:New(nil, function()
 

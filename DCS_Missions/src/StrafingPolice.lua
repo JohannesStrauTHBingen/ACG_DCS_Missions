@@ -1,9 +1,9 @@
 
 local redAirfield = ZONE:New("redAirfield")
 
-local group = GROUP:FindByName("me"):HandleEvent(EVENTS.Shot)
+local group = GROUP:FindByName("me"):HandleEvent(EVENTS.ShootingStart)
 
-function group:OnEventShot(EventData)
+function group:OnEventSchootingStart(EventData)
   MESSAGE:New("Handling hit",10,nil):ToAll()
 
   local targetGroup = GROUP:Find(EventData.target)

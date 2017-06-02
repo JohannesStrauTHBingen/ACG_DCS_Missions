@@ -1,21 +1,18 @@
 
+local redAirfield = ZONE:New("redAirfield")
 
-local clientUnitSet = SET_UNIT:New()
+local clientGroupSetBlue = SET_GROUP:New()
   :FilterCategories("plane")
+  :FilterCoalitions("blue")
   :FilterStart()
-
-
-local zone = ZONE:New("Airfield")
-
-local aUnit = UNIT:Find("Unit")
-aUnit:HandleEvent(EVENTS.Hit)
-function aUnit:OnEventHit(EventData)
-  if aUnit:IsAlive()then
-    
-    if aUnit:
-
-  end
-end
-
-
+clientGroupSetBlue:ForEachGroup(function(group)
   
+  group:HandleEvent(Events.Shot)
+
+  function group:OnEventShot(EventData)
+    local targetGroup = GROUP:Find(EventData.target)
+    if targetGroup:AllOnGround() and targetGroup:IsCompletelyInZone(redAirfield) then
+      aGroup:Destroy()
+    end
+  end
+end)

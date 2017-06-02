@@ -1,7 +1,7 @@
 
 local redAirfield = ZONE:New("redAirfield")
 
-local group = CLIENT:Find('me')
+local group = CLIENT:Find('me'):GetClientGroupUnit()
 
 group:HandleEvent(EVENTS.ShootingStart)
 

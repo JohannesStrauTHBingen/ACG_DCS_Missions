@@ -12,7 +12,7 @@ clientGroupSetBlue:ForEachGroup(function(group)
   function group:OnEventShot(EventData)
     local targetGroup = GROUP:Find(EventData.target)
     if targetGroup:AllOnGround() and targetGroup:IsCompletelyInZone(redAirfield) then
-      aGroup:Destroy()
+      group:Destroy()
     end
   end
 end)

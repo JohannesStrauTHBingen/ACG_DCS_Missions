@@ -14,6 +14,7 @@ MaykopAttackingGroupREDGroupIsAliveChecker , MaykopAttackingGroupREDGroupIsAlive
  
   if maykopOccupied and not MaykopAttackingGroupRED:IsAlive()  then
     maykopOccupied = false
+    function trigger.action.outSound(string computerbeep_11)
     MESSAGE:New("Good job! Maykop is ours boys!",60,nil):Blue()
     MESSAGE:New("The enemy has captured Maykop! We must counterstrike. Maykop MUST be only ours!"):ToRed()
     MaykopDefenceGroupBLUE:Spawn()
@@ -31,6 +32,7 @@ MaykopAttackingGroupBLUEGroupIsAliveChecker , MaykopAttackingGroupBLUEGroupIsAli
  
   if maykopOccupied and not MaykopAttackingGroupBLUE:IsAlive()  then
     maykopOccupied = false
+    function trigger.action.outSound(string computerbeep_11)
     MESSAGE:New("Good job! Maykop is ours boys!",60,nil):ToRed()
     MESSAGE:New("The enemy has captured Maykop! We must counterstrike. Maykop MUST be only ours!"):ToBlue()
     MaykopDefenceGroupRED:Spawn()

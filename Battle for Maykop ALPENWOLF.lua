@@ -10,6 +10,11 @@ MaykopAttackingGroupRED = GROUP:FindByName("Red_Attack_Force_Maykop")
 MaykopDefenceGroupBLUE = GROUP:FindByName("Blue_Garrison_Maykop")
 maykopOccupied = true
 
+-- Die erste Zeile direkt über dieser zeigt, dass Maykop besetzt ist, was aber falsch ist. Maykop ist anfangs neutral und kann erobert/wieder erobert werden. Ich wollte eigentlich, dass
+-- Spieler mit Hubschraubern mit Spezialeinheiten am Board nach maykop fliegen, dort landen, die Truppen rauslassen (nachdem die gegnerische Bodengruppe zerstört wurde), um DANN Maykop zu
+-- erobern. Man findet paar Scripts unter "Cargo" bei den Moose_Missions, aber ich konnte nicht viel damit anfangen. Falls du das kannst, dann machen wir es gleich so mit Spezialeinheiten
+-- für die Eroberung und dadurch, dass eine Verteidigungsgruppe spawnt, damit maykop erobert wird. Wäre cool und was anderes bezüglich Besetzungen.
+
 MaykopAttackingGroupREDGroupIsAliveChecker , MaykopAttackingGroupREDGroupIsAliveCheckerID = SCHEDULER:New(nil,function()
  
   if maykopOccupied and not MaykopAttackingGroupRED:IsAlive()  then

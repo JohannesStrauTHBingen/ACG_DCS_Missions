@@ -1,0 +1,20 @@
+Von Pikey auf Slack bezüglich Sound-Dateien:
+
+trigger.action.outSoundForCoalition(coalition.side.BLUE, 'YOURSOUNDFILENAME.ogg')
+
+Weiß ich aber nicht, wie es mit sound_to_all ist.
+
+
+
+Wenn Bodentruppen beider Koalitionen binnen 2 km von einer Airbase entfernt sind ist die Base zwar neutral, aber BEIDE könnten da spawnen. Um das zu verhindern:
+
+https://forums.eagle.ru/showthread.php?t=158634
+
+Unter "Cargo" kann man vielleicht sehen, wie man Truppen mit dem Heli laden und entladen kann. Dies als Voraussetzung verankern in MOOSE, bevor die Spawn_Block_Function behoben wird.
+
+
+
+
+Tips für lua_Funktionen:
+
+http://wiki.hoggit.us/view/Category:Singleton_Functions

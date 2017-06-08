@@ -1,59 +1,37 @@
 
---BASE:TraceOnOff(true)
---BASE:TraceAll(true)
---BASE:TraceLevel(3)
-
---Ground Units that are supposed to be spawned.
-local kingTigerSpawn = SPAWN:New("KingTiger")
+kingTigerSpawn = SPAWN:New("KingTiger")
   :InitLimit(1,10)
   :SpawnScheduled(900, 0)
 
-local tigerSpawn = SPAWN:New("Tiger")
+tigerSpawn = SPAWN:New("Tiger")
   :InitLimit(2, 20)
   :SpawnScheduled(300, 0)
 
-local pantherSpawn = SPAWN:New("Panther")
+pantherSpawn = SPAWN:New("Panther")
   :InitLimit(2, 20)
   :SpawnScheduled(300, 0)
 
-local panzerIVSpawn = SPAWN:New("PanzerIV")
+panzerIVSpawn = SPAWN:New("PanzerIV")
   :InitLimit(5,50)
   :SpawnScheduled(60, 0)
 
-local ShermanSpawn = SPAWN:New("Sherman")
+ShermanSpawn = SPAWN:New("Sherman")
   :InitLimit(10,50)
   :SpawnScheduled(60, 0)
 
-local FireflySpawn = SPAWN:New("Firefly")
+FireflySpawn = SPAWN:New("Firefly")
   :InitLimit(5,25)
   :SpawnScheduled(60, 0)
 
-local CromwellSpawn = SPAWN:New("Cromwell")
+CromwellSpawn = SPAWN:New("Cromwell")
   :InitLimit(5, 25)
   :SpawnScheduled(60, 0)
 
-local pointsAllied = 0
-local pointsAxis = 0
+pointsAllied = 0
+pointsAxis = 0
 
--- local bomberLeader = SPAWN:New("BomberGroupLeader")
-  -- :OnSpawnGroup(function()
-    -- MESSAGE:New("Bombers Spawned",20,nil):ToAll()
-  -- end)
-  -- :Spawn()
--- local bomberRight = SPAWN:New("BomberGroupRight"):Spawn()
--- local bomberLeft = SPAWN:New("BomberGroupLeft"):Spawn()
--- local bomberBack = SPAWN:New("BomberGroupBack"):Spawn()
+AddPoints = SCHEDULER:New(nil,function()
 
-
-local bomberScheduler = SCHEDULER:New(function()
-  
-
-  end,{},0,20)
-
-
-local addPoints = SCHEDULER:New(nil,function()
-
-    BASE.E(self,"AddPoints starts")
     local blueUnitsInZone = 0
     local redUnitsInZone = 0
     local captureZone = ZONE:New("capZone")
@@ -91,27 +69,27 @@ local addPoints = SCHEDULER:New(nil,function()
       MESSAGE:New("We are holding the Airfield! Keep it on!",10,nil):ToRed()
       pointsAxis = pointsAxis + 1
     end
-
+    
     MESSAGE:New("Axis Capture Points: " .. tostring(pointsAxis) ,10, nil):ToAll()
     MESSAGE:New("Allies Capture Points: " .. tostring(pointsAllied) ,10, nil):ToAll()
-    BASE:E("Add Points end.")
+   
 end
 ,{},300,300)
 
-local missionResult = SCHEDULER:New(nil, function()
+missionResult = SCHEDULER:New(nil, function()
 
     if (pointsAxis > pointsAllied) then
       MESSAGE:New("We won the battle! Good Job Kameraden. Next fight in 5 Minutes.",20,nil):ToRed()
       MESSAGE:New("We lost! Retreat and regroup. Next fight in 5 Minutes.",20,nil):ToBlue()
     end
-
+    
     if (pointsAllied > pointsAxis) then
       MESSAGE:New("We lost! Retreat and regroup. Next fight in 5 Minutes.",20,nil):ToRed()
       MESSAGE:New("We won! One step closer to Berlin. Next fight in 5 Minutes.",20,nil):ToBlue()
     end
-
+    
     if (pointsAllied == pointsAxis) then
-      MESSAGE:New("Draw. Restart in 5 Minutes.",20,nil):ToAll()
+        MESSAGE:New("Draw. Restart in 5 Minutes.",20,nil):ToAll()
     end
 end,{},14100)
 

@@ -9,23 +9,18 @@
 MaykopAttackingGroupRED = GROUP:FindByName("Red_Attack_Force_Maykop")
 MaykopDefenceGroupBLUE = GROUP:FindByName("Blue_Garrison_Maykop")
 
--- Maykop ist anfangs neutral und kann erobert/wieder erobert werden. Ich wollte eigentlich, dass Spieler mit Hubschraubern mit Spezialeinheiten am Board nach maykop fliegen, dort landen,
--- die Truppen rauslassen (nachdem die gegnerische Bodengruppe zerstört wurde), um DANN Maykop zu erobern. Man findet paar Scripts unter "Cargo" bei den Moose_Missions, aber ich konnte nicht
--- viel damit anfangen. Falls du das kannst, dann machen wir es gleich so mit Spezialeinheiten für die Eroberung und dadurch, dass eine Verteidigungsgruppe spawnt, damit maykop erobert wird.
-
 MaykopAttackingGroupREDGroupIsAliveChecker , MaykopAttackingGroupREDGroupIsAliveCheckerID = SCHEDULER:New(nil,function()
  
   if not MaykopAttackingGroupRED:IsAlive()  then
-    trigger.action.outSoundForCoalition(coalition.side.BLUE, 'computerbeep_11')
-    trigger.action.outSoundForCoalition(coalition.side.RED, 'computerbeep_11')
-    MESSAGE:New("Good job! Maykop is ours boys!",60,nil):Blue()
-    MESSAGE:New("The enemy has captured Maykop! We must counterstrike. Maykop MUST be only ours!"):ToRed()
+    trigger.action.outSound("computerbeep_11.ogg")
+    MESSAGE:New("Good job! Maykop is ours boys!",45,nil):Blue()
+    MESSAGE:New("The enemy has captured Maykop! We must counterstrike. Maykop MUST be only ours!",45,nil):ToRed()
     MaykopDefenceGroupBLUE:Spawn()
     MaykopAttackingGroupREDGroupIsAliveChecker:Stop(MaykopAttackingGroupREDGroupIsAliveChecker)
   end
   
 end
-,{}, 60 , 60)
+,{}, 30 , 30)
 
 MaykopAttackingGroupBLUE = GROUP:FindByName("Blue_Attack_Force_Maykop")
 MaykopDefenceGroupRED = GROUP:FindByName("Red_Garrison_Maykop")
@@ -33,16 +28,15 @@ MaykopDefenceGroupRED = GROUP:FindByName("Red_Garrison_Maykop")
 MaykopAttackingGroupBLUEGroupIsAliveChecker , MaykopAttackingGroupBLUEGroupIsAliveCheckerID = SCHEDULER:New(nil,function()
  
   if not MaykopAttackingGroupBLUE:IsAlive()  then
-    trigger.action.outSoundForCoalition(coalition.side.BLUE, 'computerbeep_11')
-    trigger.action.outSoundForCoalition(coalition.side.RED, 'computerbeep_11')
-    MESSAGE:New("Good job! Maykop is ours boys!",60,nil):ToRed()
-    MESSAGE:New("The enemy has captured Maykop! We must counterstrike. Maykop MUST be only ours!"):ToBlue()
+    trigger.action.outSound("computerbeep_11.ogg")
+    MESSAGE:New("Good job! Maykop is ours boys!",45,nil):ToRed()
+    MESSAGE:New("The enemy has captured Maykop! We must counterstrike. Maykop MUST be only ours!",45,nil):ToBlue()
     MaykopDefenceGroupRED:Spawn()
     MaykopAttackingGroupBLUEGroupIsAliveChecker:Stop(MaykopAttackingGroupBLUEGroupIsAliveChecker)
   end
   
 end
-,{}, 60 , 60)
+,{}, 30 , 30)
 
 -- Maykop kann immer wieder eroebert werden. Wenn Rot die angreifende Gruppe von Blau südlich von Maykop zerstört, bekommt er Maykop mit Verteidigungseinheiten. Will aber Blau Maykop erobern,
 -- muss er erstmal die angrefiende Gruppe von Rot südlich von Maykop zerstören und dann zusätzlich die Verteidigungsgruppe um Maykop herum.

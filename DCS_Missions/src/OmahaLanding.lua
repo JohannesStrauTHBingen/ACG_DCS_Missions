@@ -11,10 +11,10 @@ recconUnitsSpawn = SPAWN:New("RecconUSTaskForceOne")
 --  infantryUS:SpawnFromUnit(transportUnit)
 --end
 
-troopTransportOneSpawn = SPAWN:New("USInfrantryTruckTaskForceOne")
-MESSAGE:New("Transport Loaded",20,"debug"):ToAll()
-infantryUS = SPAWN:New("InfantryUS")
-MESSAGE:New("Infantry Loaded",20,"debug"):ToAll()
+--troopTransportOneSpawn = SPAWN:New("USInfrantryTruckTaskForceOne")
+--MESSAGE:New("Transport Loaded",20,"debug"):ToAll()
+--infantryUS = SPAWN:New("InfantryUS")
+--MESSAGE:New("Infantry Loaded",20,"debug"):ToAll()
 --local usOmahaHQ = GROUP:Find("USOmahaHQ")
 
 

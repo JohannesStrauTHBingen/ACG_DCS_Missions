@@ -19,3 +19,4 @@ bomberSet:ForEachGroup(function(MooseGroup)
   MooseGroup:Activate()
   MESSAGE:New("A Bomber Group Activated",10,"Debug"):ToAll()
 end)
+

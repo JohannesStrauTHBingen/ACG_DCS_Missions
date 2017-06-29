@@ -12,6 +12,7 @@ MESSAGE:New("All Sets Done",10,"Debug"):ToAll()
 --
 --COORDINATE:ToStringBR(TargetCoordinate,FromCoordinate,Settings)
 
+COORDINATE:ToStringBRA(FromCoordinate)
 
 local radarSchedular = SCHEDULER:New(nil,function()
   jagtwaffe:ForEachClient(function(client)

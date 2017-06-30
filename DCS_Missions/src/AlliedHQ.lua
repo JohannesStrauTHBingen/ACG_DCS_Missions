@@ -1,6 +1,6 @@
-local hq = GROUP:FindByName("AdlerHorst")
+local hq = GROUP:FindByName("Overlord")
 
-local commandCenter = COMMANDCENTER:New(hq,"AdlerHorst")
+local commandCenter = COMMANDCENTER:New(hq,"Overlord")
   :SetModeWWII()
   :SetReferenceZones("Azeville")
   :SetReferenceZones("Les Dunes de Varreville")
@@ -12,7 +12,7 @@ local commandCenter = COMMANDCENTER:New(hq,"AdlerHorst")
   :SetReferenceZones("Isigny")
 
 
-MESSAGE:New("HQ done!",20,"Debug"):ToAll()
+MESSAGE:New("US HQ done!",20,"Debug"):ToAll()
 
 local jagt = SCORING:New("CAS")
 local mission = MISSION
@@ -38,7 +38,3 @@ function mission:OnAfterMissionGoals( From, Event, To )
     mission:Complete()
   end
 end
-
-
---local interceptTask = TASK_A2A_INTERCEPT:New(mission,jagtwaffe,"Intercept",bombers)
---local casTRask = TASK_A2G_BAI:New(mission,jagtwaffe,"Close Air Support", groundTargets)

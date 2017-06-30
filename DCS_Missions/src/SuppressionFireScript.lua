@@ -46,7 +46,7 @@ do
 		if event.id == world.event.S_EVENT_HIT then
 			local tgt = event.target
 			local tgtType = tgt:getTypeName()
-			if tgt:hasAttribute("Infantry") or tgt:hasAttribute("Static AAA") or (tgtType == "Ural-375 ZU-23") then	--Check if hit unit is infantry, static or mobile ZU-23
+			if tgt:hasAttribute("Ground") or tgt:hasAttribute("Static AAA") or (tgtType == "Ural-375 ZU-23") then	--Check if hit unit is infantry, static or mobile ZU-23
 				SuppressGroup(tgt)	--Run suppression of hit unit (group)
 			end
 		end

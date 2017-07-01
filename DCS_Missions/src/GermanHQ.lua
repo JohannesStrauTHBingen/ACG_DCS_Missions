@@ -1,5 +1,9 @@
-local hq = GROUP:FindByName("AdlerHorst")
+local jagtwaffe = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
+local fighterwings = SET_GROUP:New():FilterCoalitions("blue"):FilterCategories("plane"):FilterStart()
+local gerRecUnits = SET_GROUP:New():FilterCoalitions("red"):FilterPrefixes("Ger"):FilterStart()
+local usRecUnits = SET_GROUP:New():FilterCoalitions("blue"):FilterPrefixes("US"):FilterStart()
 
+local hq = GROUP:FindByName("AdlerHorst")
 local commandCenter = COMMANDCENTER:New(hq,"AdlerHorst")
   :SetModeWWII()
   :SetReferenceZones("Azeville")
@@ -12,19 +16,17 @@ local commandCenter = COMMANDCENTER:New(hq,"AdlerHorst")
   :SetReferenceZones("Isigny")
 
 
-MESSAGE:New("HQ done!",20,"Debug"):ToAll()
-
 local jagt = SCORING:New("CAS")
-local mission = MISSION
+local missionGer = MISSION
   :New(commandCenter,"WestWall","Primary","Allied forces are Advancing! Destroy their Bombers and Ground Forces!",coalition.side.RED)
   :AddScoring(jagt)
 
 
 
 local gerRec = DETECTION_UNITS:New(gerRecUnits)
-local CASTasking = TASK_A2G_DISPATCHER:New(mission,jagtwaffe,gerRec)
+local CASTaskingGer = TASK_A2G_DISPATCHER:New(missionGer,jagtwaffe,gerRec)
 
-function mission:OnAfterMissionGoals( From, Event, To )
+function missionGer:OnAfterMissionGoals( From, Event, To )
   self:E( { From, Event, To } )
   local targetGroups = SET_GROUP:New():FilterCoalitions("blue"):FilterPrefixes("US"):FilterStart()
   local aliveUnits = 0
@@ -34,11 +36,12 @@ function mission:OnAfterMissionGoals( From, Event, To )
     end
   end)
   if aliveUnits == 0 then
-    mission:GetCommandCenter():MessageToCoalition( "Mission Complete! All targets have been destroyed and the Allied Invasion as been crushed!" )
-    mission:Complete()
+    missionGer:GetCommandCenter():MessageToCoalition( "Mission Complete! All targets have been destroyed and the Allied Invasion as been crushed!" )
+    missionGer:Complete()
   end
 end
 
+MESSAGE:New("Axis HQ online",20,"Debug"):ToAll()
 
 --local interceptTask = TASK_A2A_INTERCEPT:New(mission,jagtwaffe,"Intercept",bombers)
 --local casTRask = TASK_A2G_BAI:New(mission,jagtwaffe,"Close Air Support", groundTargets)

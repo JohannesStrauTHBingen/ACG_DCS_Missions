@@ -6,27 +6,22 @@ local commandCenter = COMMANDCENTER:New(hq,"Overlord")
   :SetReferenceZones("Les Dunes de Varreville")
   :SetReferenceZones("Grandcamp les Bains")
   :SetReferenceZones("Vierville suer Mer")
-  :SetReferenceZones("La Vailee")
+  :SetReferenceZones("La Vai lee")
   :SetReferenceZones("Ranchy")
   :SetReferenceZones("Cateaubrave")
   :SetReferenceZones("Isigny")
 
-
-MESSAGE:New("US HQ done!",20,"Debug"):ToAll()
-
-local jagt = SCORING:New("CAS")
+local hunt = SCORING:New("CAS")
 local mission = MISSION
-  :New(commandCenter,"WestWall","Primary","Allied forces are Advancing! Destroy their Bombers and Ground Forces!",coalition.side.RED)
-  :AddScoring(jagt)
+  :New(commandCenter,"Operation Overlord","Primary","Protect our ground forces forces from enemy fighter bombers and support them on their advance!",coalition.side.BLUE)
+  :AddScoring(hunt)
 
-
-
-local gerRec = DETECTION_UNITS:New(gerRecUnits)
-local CASTasking = TASK_A2G_DISPATCHER:New(mission,jagtwaffe,gerRec)
+local usRec = DETECTION_UNITS:New(usRecUnits)
+local CASTasking = TASK_A2G_DISPATCHER:New(mission,fighterwings,usRec)
 
 function mission:OnAfterMissionGoals( From, Event, To )
   self:E( { From, Event, To } )
-  local targetGroups = SET_GROUP:New():FilterCoalitions("blue"):FilterPrefixes("US"):FilterStart()
+  local targetGroups = SET_GROUP:New():FilterCoalitions("red"):FilterPrefixes("GerGarrison"):FilterStart()
   local aliveUnits = 0
   targetGroups:ForEachGroup(function(group)
     if group:IsAlive() then
@@ -34,7 +29,50 @@ function mission:OnAfterMissionGoals( From, Event, To )
     end
   end)
   if aliveUnits == 0 then
-    mission:GetCommandCenter():MessageToCoalition( "Mission Complete! All targets have been destroyed and the Allied Invasion as been crushed!" )
+    mission:GetCommandCenter():MessageToCoalition( "Mission Complete! All targets have been destroyed!" )
     mission:Complete()
   end
+end 
+
+local alliedTanksOneSpawn = SPAWN:New("USGroundForcesShermanOne")
+  :InitLimit(2,0)
+  :SpawnScheduled(30,0)
+  :SpawnScheduleStop()
+local alliedTanksTwoSpawn = SPAWN:New("USGroundForcesShermanTwo")
+  :InitLimit(8,0)
+  :SpawnScheduled(1,0)
+  :SpawnScheduleStop()
+
+local shipOne = GROUP:FindByName("USshipOne")
+  :HandleEvent(EVENTS.Dead)
+function shipOne:OnEventDead(EventData)
+  alliedTanksOneSpawn:SpawnScheduleStop()
 end
+local shipTwo = GROUP:FindByName("USshipTwo")
+  :HandleEvent(EVENTS.Dead)
+function shipTwo:OnEventDead(EventData)
+  alliedTanksTwoSpawn:SpawnScheduleStop()
+end
+
+local firstOne = true
+local zoneOne = ZONE:New("LandingZoneOne")
+local shipOneArrived = SCHEDULER:New(nil,function()
+  if firstOne and shipOne:IsCompletelyInZone(zoneOne) then
+    firstOne = false
+    alliedTanksOneSpawn:SpawnScheduleStart()
+  end
+end, {},0,180)
+
+local firstTwo = true
+local zoneTwo = ZONE:New("LandingZoneTwo")
+local shipTwoArrived = SCHEDULER:New(nil,function()
+  MESSAGE:New("checking",10,"Debug"):ToAll()
+
+  if firstTwo and shipTwo:IsCompletelyInZone(zoneTwo) then
+    MESSAGE:New("unloading units",10,"Debug"):ToAll()
+    firstTwo = false
+    alliedTanksTwoSpawn:SpawnScheduleStart()
+  end
+end, {},0,10)
+
+MESSAGE:New("Allied HQ online",10,"Debug"):ToAll()

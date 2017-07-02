@@ -98,6 +98,7 @@ local missionGer = MISSION
 
 local gerRec = DETECTION_UNITS:New(gerRecUnits)
 local CASTaskingGer = TASK_A2G_DISPATCHER:New(missionGer,jagtwaffe,gerRec)
+local A2ATaskingGer = TASK_A2A_DISPATCHER:New(missionGer,jagtwaffe,gerRec)
 
 function missionGer:OnAfterMissionGoals( From, Event, To )
   self:E( { From, Event, To } )
@@ -135,6 +136,7 @@ local missionUS = MISSION
 
 local usRec = DETECTION_UNITS:New(usRecUnits)
 local CASTaskingUS = TASK_A2G_DISPATCHER:New(missionUS,fighterwings,usRec)
+local A2ATaskingUS = TASK_A2A_DISPATCHER:New(missionUS,fighterwings,usRec)
 
 function missionUS:OnAfterMissionGoals( From, Event, To )
   self:E( { From, Event, To } )
@@ -153,11 +155,11 @@ end
 
 local alliedTanksOneSpawn = SPAWN:New("USGroundForcesShermanOne")
   :InitLimit(2,0)
-  :SpawnScheduled(30,0)
+  :SpawnScheduled(1800,0)
   :SpawnScheduleStop()
 local alliedTanksTwoSpawn = SPAWN:New("USGroundForcesShermanTwo")
   :InitLimit(8,0)
-  :SpawnScheduled(1,0)
+  :SpawnScheduled(1800,0)
   :SpawnScheduleStop()
 
 local shipOne = GROUP:FindByName("USshipOne")
@@ -178,18 +180,16 @@ local shipOneArrived = SCHEDULER:New(nil,function()
     firstOne = false
     alliedTanksOneSpawn:SpawnScheduleStart()
   end
-end, {},0,180)
+end, {},0,60)
 
 local firstTwo = true
 local zoneTwo = ZONE:New("LandingZoneTwo")
 local shipTwoArrived = SCHEDULER:New(nil,function()
-  MESSAGE:New("checking",10,"Debug"):ToAll()
 
   if firstTwo and shipTwo:IsCompletelyInZone(zoneTwo) then
-    MESSAGE:New("unloading units",10,"Debug"):ToAll()
     firstTwo = false
     alliedTanksTwoSpawn:SpawnScheduleStart()
   end
-end, {},0,10)
+end, {},0,60)
 
 MESSAGE:New("Allied HQ online",10,"Debug"):ToAll()

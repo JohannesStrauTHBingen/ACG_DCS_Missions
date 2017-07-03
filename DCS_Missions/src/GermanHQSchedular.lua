@@ -6,12 +6,12 @@ MESSAGE:New("All Sets Done",10,"Debug"):ToAll()
 
 local radarSchedular = SCHEDULER:New(nil,function()
   MESSAGE:New("starting radar",10,"Debug"):ToAll()
-  jagtwaffe:ForEachClient(function(ClientObject)
+  jagtwaffe:ForEachClient(function(client)
     MESSAGE:New("hit" ,15,"RadarInfo"):ToAll()
     if(bombers:Count() > 0)then
       local bomber = bombers:GetFirst()
       local bomberPos = bomber:GetCoordinate()
-      local clientPos = ClientObject:GetCoordinate()
+      local clientPos = client:GetCoordinate()
       --MESSAGE:New(bomberPos.ToStringBRA(clientPos) ,15,"RadarInfo"):ToClient(client)
       --MESSAGE:New("There they are" ,15,"RadarInfo"):ToClient(client)
     end

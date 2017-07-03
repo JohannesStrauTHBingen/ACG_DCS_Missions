@@ -151,10 +151,10 @@ function missionUS:OnAfterMissionGoals( From, Event, To )
     missionUS:GetCommandCenter():MessageToCoalition( "Mission Complete! All targets have been destroyed!" )
     missionUS:Complete()
   end
-end 
+end
 
 local alliedTanksOneSpawn = SPAWN:New("USGroundForcesShermanOne")
-  :InitLimit(2,0)
+  :InitLimit(8,0)
   :SpawnScheduled(1800,0)
   :SpawnScheduleStop()
 local alliedTanksTwoSpawn = SPAWN:New("USGroundForcesShermanTwo")
@@ -166,11 +166,15 @@ local shipOne = GROUP:FindByName("USshipOne")
   :HandleEvent(EVENTS.Dead)
 function shipOne:OnEventDead(EventData)
   alliedTanksOneSpawn:SpawnScheduleStop()
+  MESSAGE:New("Our ships at Vierville suer Mer got destroyed! Our Groundforces are cut off!",10 , "BattleInfo"):ToBlue()
+  MESSAGE:New("Enemy ships at Vierville suer Mer destroyed! Kill off remaning allied forces!",10 , "BattleInfo"):ToRed()
 end
 local shipTwo = GROUP:FindByName("USshipTwo")
   :HandleEvent(EVENTS.Dead)
 function shipTwo:OnEventDead(EventData)
   alliedTanksTwoSpawn:SpawnScheduleStop()
+  MESSAGE:New("Our ships at Grandcamp les Bains got destroyed! Our Groundforces are cut off!",10 , "BattleInfo"):ToBlue()
+  MESSAGE:New("Enemy ships at Grandcamp les Bains destroyed! Kill off remaning allied forces!",10 , "BattleInfo"):ToRed()
 end
 
 local firstOne = true
@@ -179,16 +183,19 @@ local shipOneArrived = SCHEDULER:New(nil,function()
   if firstOne and shipOne:IsCompletelyInZone(zoneOne) then
     firstOne = false
     alliedTanksOneSpawn:SpawnScheduleStart()
+    MESSAGE:New("Our ships arrived at Vierville suer Mer. Protect them!",10 , "BattleInfo"):ToBlue()
+    MESSAGE:New("Enemy ships arrived at Vierville suer Mer. Destroy them!",10 , "BattleInfo"):ToRed()
   end
 end, {},0,60)
 
 local firstTwo = true
 local zoneTwo = ZONE:New("LandingZoneTwo")
 local shipTwoArrived = SCHEDULER:New(nil,function()
-
   if firstTwo and shipTwo:IsCompletelyInZone(zoneTwo) then
     firstTwo = false
     alliedTanksTwoSpawn:SpawnScheduleStart()
+    MESSAGE:New("Our ships arrived at Grandcamp les Bains. Protect them!",10 , "BattleInfo"):ToBlue()
+    MESSAGE:New("Enemy ships arrived at Grandcamp les Bains. Destroy them!",10 , "BattleInfo"):ToRed()
   end
 end, {},0,60)
 

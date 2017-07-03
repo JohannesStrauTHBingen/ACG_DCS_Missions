@@ -1,5 +1,21 @@
 options = 
 {
+    ["playerName"] = "Neues Rufz.",
+    ["miscellaneous"] = 
+    {
+        ["headmove"] = false,
+        ["TrackIR_external_views"] = false,
+        ["f5_nearest_ac"] = false,
+        ["f11_free_camera"] = false,
+        ["F2_view_effects"] = 1,
+        ["f10_awacs"] = true,
+        ["Coordinate_Display"] = "Lat Long",
+        ["accidental_failures"] = false,
+        ["force_feedback_enabled"] = true,
+        ["show_pilot_body"] = false,
+        ["synchronize_controls"] = false,
+        ["chat_window_at_start"] = true,
+    }, -- end of ["miscellaneous"]
     ["difficulty"] = 
     {
         ["fuel"] = false,
@@ -7,9 +23,9 @@ options =
         ["easyRadar"] = false,
         ["cockpitStatusBarAllowed"] = false,
         ["miniHUD"] = false,
-        ["map"] = false,
+        ["map"] = true,
         ["birds"] = 0,
-        ["optionsView"] = "optview_myaircraft",
+        ["optionsView"] = "optview_all",
         ["permitCrash"] = false,
         ["immortal"] = false,
         ["easyCommunication"] = false,
@@ -20,30 +36,16 @@ options =
         ["radio"] = false,
         ["easyFlight"] = false,
         ["externalViews"] = false,
-        ["avionicsLanguage"] = "english",
-        ["userSnapView"] = true,
+        ["avionicsLanguage"] = "native",
+        ["userSnapView"] = false,
         ["units"] = "metric",
-        ["userMarks"] = false,
-        ["spectatorExternalViews"] = false,
-        ["impostors"] = "medium",
+        ["userMarks"] = true,
+        ["spectatorExternalViews"] = true,
+        ["impostors"] = "",
         ["iconsTheme"] = "nato",
-        ["setGlobal"] = false,
+        ["setGlobal"] = true,
         ["weapons"] = false,
         ["padlock"] = false,
         ["geffect"] = "realistic",
     }, -- end of ["difficulty"]
-
-    {
-        ["headmove"] = true,
-        ["TrackIR_external_views"] = true,
-        ["f5_nearest_ac"] = false,
-        ["f11_free_camera"] = false,
-        ["F2_view_effects"] = 1,
-        ["f10_awacs"] = false,
-        ["Coordinate_Display"] = "Lat Long",
-        ["accidental_failures"] = false,
-        ["force_feedback_enabled"] = true,
-        ["synchronize_controls"] = true,
-        ["show_pilot_body"] = false,
-    }, -- end of ["miscellaneous"]
 } -- end of options

@@ -200,3 +200,56 @@ local shipTwoArrived = SCHEDULER:New(nil,function()
 end, {},0,60)
 
 MESSAGE:New("Allied HQ online",10,"Debug"):ToAll()
+
+local raidOne = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17One"):FilterStart()
+local raidTwo = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Two"):FilterStart()
+local raidThree = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Third"):FilterStart()
+local raidFour = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Four"):FilterStart()
+local raidFive = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Five"):FilterStart()
+local raidSix = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Six"):FilterStart()
+
+
+local function SpawnRaid(raidSet)
+  raidSet:ForEachGroup(function(group)
+    group:Activate()
+  end)
+end
+
+local raids = {raidOne, raidTwo, raidThree, raidFour, raidFive, raidSix}
+local index = 0
+
+local spawnRaidSchedular = SCHEDULER:New(nil,function()
+  index = index + 1
+  SpawnRaid(raids[index])
+end ,{}, 1800,3600)
+
+local jagtwaffeClients = SET_CLIENT:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
+local bombers = SET_GROUP:New():FilterCoalitions("blue"):FilterCategories("plane"):FilterPrefixes("B17"):FilterStart()
+
+local function countAliveBombers()
+  local number = 0
+  bombers:ForEachGroup(function(group)
+    if group:IsAlive() then
+      number = number + group:GetSize()
+    end
+  end)
+  return number
+end
+
+local radarSchedular = SCHEDULER:New(nil,function()
+  local aliveBombers = countAliveBombers()
+  if aliveBombers > 0 then
+    jagtwaffeClients:ForEachClient(function(client)
+      if client:IsAlive() then
+        local bomber = bombers:GetFirst()
+        local bomberPos = bomber:GetCoordinate()
+        local clientPos = client:GetCoordinate()
+        MESSAGE:New( "B17 Formation Spottet at\n " ..
+          bomberPos:ToStringBRA(clientPos)
+          .. "\n" .. tostring(aliveBombers) .. " Bombers detected!" ,15,"BODO: "):ToClient(client)
+      end
+    end)
+  end
+end,{},0, 300)
+
+MESSAGE:New("All lines loaded", 10, "Debug"):ToAll()

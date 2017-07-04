@@ -42,6 +42,3 @@ function missionGer:OnAfterMissionGoals( From, Event, To )
 end
 
 MESSAGE:New("Axis HQ online",20,"Debug"):ToAll()
-
---local interceptTask = TASK_A2A_INTERCEPT:New(mission,jagtwaffe,"Intercept",bombers)
---local casTRask = TASK_A2G_BAI:New(mission,jagtwaffe,"Close Air Support", groundTargets)

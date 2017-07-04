@@ -221,6 +221,7 @@ local index = 0
 local spawnRaidSchedular = SCHEDULER:New(nil,function()
   index = index + 1
   SpawnRaid(raids[index])
+  MESSAGE:New("Bombers Arrived in XA50.\n protect them on their way to Chippelle and back!", 15, "HQ: "):ToBlue()
 end ,{}, 1800,3600)
 
 local jagtwaffeClients = SET_CLIENT:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
@@ -251,5 +252,13 @@ local radarSchedular = SCHEDULER:New(nil,function()
     end)
   end
 end,{},0, 300)
+
+local despawnZone = ZONE:New("DespawnBombers")
+
+local despawnRaid = SCHEDULER:New(nil, function()
+  bombers:ForEachGroupPartlyInZone(despawnRaid,function(group)
+    group:Destroy()
+    end)
+end,{}, 1800, 10)
 
 MESSAGE:New("All lines loaded", 10, "Debug"):ToAll()

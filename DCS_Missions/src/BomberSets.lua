@@ -5,7 +5,7 @@ local raidThree = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("bl
 local raidFour = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Four"):FilterStart()
 local raidFive = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Five"):FilterStart()
 local raidSix = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Six"):FilterStart()
-
+local bombers = SET_GROUP:New():FilterCoalitions("blue"):FilterCategories("plane"):FilterPrefixes("B17"):FilterStart()
 
 local function SpawnRaid(raidSet)
   raidSet:ForEachGroup(function(group)
@@ -19,4 +19,13 @@ local index = 0
 local spawnRaidSchedular = SCHEDULER:New(nil,function()
   index = index + 1
   SpawnRaid(raids[index])
+  MESSAGE:New("Bombers Arrived in XA50.\n protect them on their way to Chippelle and back!", 15, "HQ: "):ToBlue()
 end ,{}, 0,3600)
+
+local despawnZone = ZONE:New("DespawnBombers")
+
+local despawnRaid = SCHEDULER:New(nil, function()
+  bombers:ForEachGroupPartlyInZone(despawnRaid,function(group)
+    group:Destroy()
+    end)
+end,{}, 1800, 10)

@@ -2,7 +2,7 @@
 local jagtwaffe = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
 local fighterwings = SET_GROUP:New():FilterCoalitions("blue"):FilterCategories("plane"):FilterStart()
 local gerRecUnits = SET_GROUP:New():FilterCoalitions("red"):FilterPrefixes("Ger"):FilterStart()
-local usRecUnits = SET_GROUP:New():FilterCoalitions("blue"):FilterPrefixes("US"):FilterStart()
+local usRecUnits = SET_GROUP:New():FilterCoalitions("blue"):FilterStart()
 
 local oneGer
 local twoGer
@@ -33,7 +33,6 @@ local airdefGER = SCHEDULER:New(nil, function()
       twoGer:Destroy()
       threeGer:Destroy()
       fourGer:Destroy()
-      MESSAGE:New("Despawned AAA",10, "debug"):ToAll()
     end
   end
 end,{},0,20)
@@ -69,7 +68,6 @@ local airdefUS = SCHEDULER:New(nil, function()
       twoUS:Destroy()
       threeUS:Destroy()
       fourUS:Destroy()
-      MESSAGE:New("Despawned AAA",10, "debug"):ToAll()
     end
   end
 end,{},0,20)
@@ -201,35 +199,58 @@ end, {},0,60)
 
 MESSAGE:New("Allied HQ online",10,"Debug"):ToAll()
 
-local raidOne = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17One"):FilterStart()
-local raidTwo = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Two"):FilterStart()
-local raidThree = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Third"):FilterStart()
-local raidFour = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Four"):FilterStart()
-local raidFive = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Five"):FilterStart()
-local raidSix = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Six"):FilterStart()
+local raid1 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17One"):FilterStart()
+local raid2 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Two"):FilterStart()
+local raid3 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Third"):FilterStart()
+local raid4 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Four"):FilterStart()
+local raid5 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Five"):FilterStart()
+local raid6 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Six"):FilterStart()
+local raid7 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Seven"):FilterStart()
+local raid8 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Eight"):FilterStart()
+local raid9 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Nine"):FilterStart()
+local raid10 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Ten"):FilterStart()
+local raid11 = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterPrefixes("B17Eleven"):FilterStart()
 
+local bombers = nil
 
-local function SpawnRaid(raidSet)
-  raidSet:ForEachGroup(function(group)
+local index = 0
+local raids = {raid1, raid2, raid3, raid4, raid5, raid6, raid7, raid8, raid9, raid10, raid11}
+
+local function spawnSet(set)
+  set:ForEachGroup(function(group)
     group:Activate()
   end)
 end
 
-local raids = {raidOne, raidTwo, raidThree, raidFour, raidFive, raidSix}
-local index = 0
+local function despawnSet(set)
+  set:ForEachGroup(function(group)
+    group:Destroy()
+  end)
+end
 
-local spawnRaidSchedular = SCHEDULER:New(nil,function()
-  index = index + 1
-  SpawnRaid(raids[index])
-  MESSAGE:New("Bombers Arrived in XA50.\n protect them on their way to Chippelle and back!", 15, "HQ: "):ToBlue()
-end ,{}, 1800,3600)
+local spawnRaid = SCHEDULER:New(nil,function()
+  if bombers then
+    despawnSet(bombers)
+  end
+  index = index +1
+  spawnSet(raids[index])
+  bombers = raids[index]
+end ,{}, 900, 1800 )
+
+local operationArea = ZONE:New("DespawnBombers")
+--local despawnRaid = SCHEDULER:New(nil, function()
+--  bombers:ForEachGroupNotInZone(operationArea,function(group)
+--    if group:IsAlive() then
+--      group:Destroy()
+--    end
+--  end)
+--end,{}, 1800, 10)
 
 local jagtwaffeClients = SET_CLIENT:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
-local bombers = SET_GROUP:New():FilterCoalitions("blue"):FilterCategories("plane"):FilterPrefixes("B17"):FilterStart()
 
 local function countAliveBombers()
   local number = 0
-  bombers:ForEachGroup(function(group)
+  bombers:ForEachGroupCompletelyInZone(operationArea,function(group)
     if group:IsAlive() then
       number = number + group:GetSize()
     end
@@ -251,14 +272,6 @@ local radarSchedular = SCHEDULER:New(nil,function()
       end
     end)
   end
-end,{},0, 300)
-
-local despawnZone = ZONE:New("DespawnBombers")
-
-local despawnRaid = SCHEDULER:New(nil, function()
-  bombers:ForEachGroupPartlyInZone(despawnRaid,function(group)
-    group:Destroy()
-    end)
-end,{}, 1800, 10)
+end,{},0, 120)
 
 MESSAGE:New("All lines loaded", 10, "Debug"):ToAll()

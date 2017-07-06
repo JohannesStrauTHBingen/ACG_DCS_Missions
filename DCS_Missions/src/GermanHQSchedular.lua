@@ -18,6 +18,12 @@ local radarSchedular = SCHEDULER:New(nil,function()
     jagtwaffe:ForEachClient(function(client)
       if client:IsAlive() then
         local bomber = bombers:GetFirst()
+
+        while not bomber:IsAlive() do
+          bombers:Remove(bomber:GetName())
+          bomber = bombers:GetFirst()
+        end
+
         local bomberPos = bomber:GetCoordinate()
         local clientPos = client:GetCoordinate()
         MESSAGE:New( "B17 Formation Spottet at\n " ..
@@ -27,3 +33,5 @@ local radarSchedular = SCHEDULER:New(nil,function()
     end)
   end
 end,{},0, 300)
+
+

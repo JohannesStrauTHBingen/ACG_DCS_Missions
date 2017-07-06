@@ -19,13 +19,13 @@ local index = 0
 local spawnRaidSchedular = SCHEDULER:New(nil,function()
   index = index + 1
   SpawnRaid(raids[index])
+  bombers = raids[index]
   MESSAGE:New("Bombers Arrived in XA50.\n protect them on their way to Chippelle and back!", 15, "HQ: "):ToBlue()
 end ,{}, 0,3600)
 
-local despawnZone = ZONE:New("DespawnBombers")
-
+local operationArea = ZONE:New("DespawnBombers")
 local despawnRaid = SCHEDULER:New(nil, function()
-  bombers:ForEachGroupPartlyInZone(despawnRaid,function(group)
+  bombers:ForEachGroupNotInZone(operationArea,function(group)
     group:Destroy()
     end)
 end,{}, 1800, 10)

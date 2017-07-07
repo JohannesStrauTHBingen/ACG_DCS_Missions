@@ -1,8 +1,6 @@
-
-local jagtwaffe = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
-local fighterwings = SET_GROUP:New():FilterCoalitions("blue"):FilterCategories("plane"):FilterStart()
-local gerRecUnits = SET_GROUP:New():FilterCoalitions("red"):FilterPrefixes("Ger"):FilterStart()
-local usRecUnits = SET_GROUP:New():FilterCoalitions("blue"):FilterPrefixes("US"):FilterStart()
+---
+--by Johannes Strauß aka IronJockel
+--
 
 local oneGer
 local twoGer
@@ -23,7 +21,7 @@ local airdefGER = SCHEDULER:New(nil, function()
       twoGer = SPAWN:New("AAALantheuil"):Spawn()
       threeGer = SPAWN:New("AAABazenville"):Spawn()
       fourGer = SPAWN:New("AAASainteCroxsurMer"):Spawn()
-      MESSAGE:New("Allied aircraft over Ger Airfield and spawned AAA",10, "debug"):ToAll()
+      MESSAGE:New(" Allied aircraft over german airfield! AAA guns are manned! ",10, "BODO"):ToRed()
     end
   end
 
@@ -33,7 +31,7 @@ local airdefGER = SCHEDULER:New(nil, function()
       twoGer:Destroy()
       threeGer:Destroy()
       fourGer:Destroy()
-      MESSAGE:New("Despawned AAA",10, "debug"):ToAll()
+      oneGer = nil
     end
   end
 end,{},0,20)
@@ -49,8 +47,10 @@ local usZone = ZONE:New("USAAAATurnOn")
 local airdefUS = SCHEDULER:New(nil, function()
   local gerAircraft = SET_UNIT:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
   local found = 0
-  gerAircraft:ForEachUnitCompletelyInZone(usZone,function()
-    found = found + 1
+  gerAircraft:ForEachUnitCompletelyInZone(usZone,function(unit)
+    if unit:IsAlive() then
+      found = found + 1
+    end
   end)
 
   if found > 0 then
@@ -59,7 +59,7 @@ local airdefUS = SCHEDULER:New(nil, function()
       twoUS = SPAWN:New("AAAPicauville"):Spawn()
       threeUS = SPAWN:New("AAABiniville"):Spawn()
       fourUS = SPAWN:New("AAAAzeville"):Spawn()
-      MESSAGE:New("German aircraft over Alied Airfield and spawned AAA",10, "debug"):ToAll()
+      MESSAGE:New(" German aircraft over our airfield! AAA guns are manned!",10, "HQ"):ToBlue()
     end
   end
 
@@ -69,7 +69,7 @@ local airdefUS = SCHEDULER:New(nil, function()
       twoUS:Destroy()
       threeUS:Destroy()
       fourUS:Destroy()
-      MESSAGE:New("Despawned AAA",10, "debug"):ToAll()
+      oneUS = nil
     end
   end
 end,{},0,20)

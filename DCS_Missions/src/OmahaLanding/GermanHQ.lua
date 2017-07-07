@@ -1,10 +1,5 @@
-local jagtwaffe = SET_GROUP:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
-local fighterwings = SET_GROUP:New():FilterCoalitions("blue"):FilterCategories("plane"):FilterStart()
-local gerRecUnits = SET_GROUP:New():FilterCoalitions("red"):FilterPrefixes("Ger"):FilterStart()
-local usRecUnits = SET_GROUP:New():FilterCoalitions("blue"):FilterPrefixes("US"):FilterStart()
-
-local hq = GROUP:FindByName("AdlerHorst")
-local commandCenter = COMMANDCENTER:New(hq,"AdlerHorst")
+local hqGer = GROUP:FindByName("AdlerHorst")
+local commandCenterGer = COMMANDCENTER:New(hqGer,"AdlerHorst")
   :SetModeWWII()
   :SetReferenceZones("Azeville")
   :SetReferenceZones("Les Dunes de Varreville")
@@ -18,13 +13,12 @@ local commandCenter = COMMANDCENTER:New(hq,"AdlerHorst")
 
 local jagt = SCORING:New("CAS")
 local missionGer = MISSION
-  :New(commandCenter,"WestWall","Primary","Allied forces are Advancing! Destroy their Bombers and Ground Forces!",coalition.side.RED)
+  :New(commandCenterGer,"WestWall","Primary","Allied forces are Advancing! Destroy their Bombers and Ground Forces!",coalition.side.RED)
   :AddScoring(jagt)
-
-
 
 local gerRec = DETECTION_UNITS:New(gerRecUnits)
 local CASTaskingGer = TASK_A2G_DISPATCHER:New(missionGer,jagtwaffe,gerRec)
+local A2ATaskingGer = TASK_A2A_DISPATCHER:New(missionGer,jagtwaffe,gerRec)
 
 function missionGer:OnAfterMissionGoals( From, Event, To )
   self:E( { From, Event, To } )
@@ -41,4 +35,7 @@ function missionGer:OnAfterMissionGoals( From, Event, To )
   end
 end
 
+
+
 MESSAGE:New("Axis HQ online",20,"Debug"):ToAll()
+

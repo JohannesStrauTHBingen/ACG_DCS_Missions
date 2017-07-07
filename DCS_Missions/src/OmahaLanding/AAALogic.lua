@@ -9,10 +9,11 @@ local fourGer
 
 local gerZone = ZONE:New("GerAAATurnON")
 local airdefGER = SCHEDULER:New(nil, function()
-  local alliedAircraft = SET_UNIT:New():FilterCategories("plane"):FilterCoalitions("blue"):FilterStart()
   local found = 0
-  alliedAircraft:ForEachUnitCompletelyInZone(gerZone,function()
-    found = found + 1
+  fighterwings:ForEachGroupCompletelyInZone(gerZone,function(group)
+    if group:IsAlive() then
+      found = found + 1
+    end
   end)
 
   if found > 0 then
@@ -45,10 +46,9 @@ local fourUS
 
 local usZone = ZONE:New("USAAAATurnOn")
 local airdefUS = SCHEDULER:New(nil, function()
-  local gerAircraft = SET_UNIT:New():FilterCategories("plane"):FilterCoalitions("red"):FilterStart()
   local found = 0
-  gerAircraft:ForEachUnitCompletelyInZone(usZone,function(unit)
-    if unit:IsAlive() then
+  jagtwaffe:ForEachGroupCompletelyInZone(usZone,function(group)
+    if group:IsAlive() then
       found = found + 1
     end
   end)

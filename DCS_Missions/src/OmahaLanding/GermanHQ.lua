@@ -35,7 +35,5 @@ function missionGer:OnAfterMissionGoals( From, Event, To )
   end
 end
 
-
-
 MESSAGE:New("Axis HQ online",20,"Debug"):ToAll()
 

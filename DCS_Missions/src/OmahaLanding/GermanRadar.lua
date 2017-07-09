@@ -3,7 +3,7 @@
 --
 --This file simulates the detection of bombers and sends a message to all
 --german clients
---This file doesn't work without the files AllUnits and Bombers and should be loaded into the mission atfer them! 
+--This file doesn't work without the files AllUnits and Bombers and should be loaded into the mission atfer them!
 --
 
 --a set of german clients
@@ -12,10 +12,10 @@ local jagtwaffeClients = SET_CLIENT:New():FilterCategories("plane"):FilterCoalit
 ---
 --counts the living bombers.
 local function countAliveBombers()
-  local bomberUnits = SET_UNIT:New():FilterPrefixes("B17")
+  local bomberUnits = SET_UNIT:New():FilterCoalitions("blue"):FilterCategories("plane"):FilterPrefixes("B17")
   local number = 0
-  bomberUnits:ForEachUnit(function(unit)
-    if unit:IsAlive() then
+  bombers:ForEachGroup(function(group)
+    if group:IsAlive() then
       number = number + 1
     end
   end)
@@ -35,17 +35,19 @@ end
 ---
 --The schedular that calls the methods to send a message to all clients.
 local radarSchedular = SCHEDULER:New(nil,function()
-  local aliveBombers = countAliveBombers()
-  if aliveBombers > 0 then
-    jagtwaffeClients:ForEachClient(function(client)
-      if client:IsAlive() then
-        local bomber = bombers:GetFirst()
-        local bomberPos = bomber:GetCoordinate()
-        local clientPos = client:GetCoordinate()
-        MESSAGE:New(generateMessage(bomber,client,aliveBombers) ,15,"BODO: "):ToClient(client)
-      end
-    end)
+  if bombers then
+    local aliveBombers = countAliveBombers()
+    if aliveBombers > 0 then
+      jagtwaffeClients:ForEachClient(function(client)
+        if client:IsAlive() then
+          local bomber = bombers:GetFirst()
+          local bomberPos = bomber:GetCoordinate()
+          local clientPos = client:GetCoordinate()
+          MESSAGE:New(generateMessage(bomber,client,aliveBombers) ,15,"BODO: "):ToClient(client)
+        end
+      end)
+    end
   end
-end,{},0, 120)
+end,{},0, 10)
 
 MESSAGE:New("German Radar loaded!",10,"Debug"):ToAll()

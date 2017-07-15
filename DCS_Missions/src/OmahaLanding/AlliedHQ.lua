@@ -21,7 +21,7 @@ local missionUS = MISSION
 
 local usRec = DETECTION_UNITS:New(usRecUnits)
 local CASTaskingUS = TASK_A2G_DISPATCHER:New(missionUS,fighterwings,usRec)
-local A2ATaskingUS = TASK_A2A_DISPATCHER:New(missionUS,fighterwings,usRec)
+--local A2ATaskingUS = TASK_A2A_DISPATCHER:New(missionUS,fighterwings,usRec)
 
 function missionUS:OnAfterMissionGoals( From, Event, To )
   self:E( { From, Event, To } )
